@@ -1,0 +1,1 @@
+D:\src\FTPUploader\src\FTPUploader\FTPUploader\bin\Debug\FTPUploader.exe.config
