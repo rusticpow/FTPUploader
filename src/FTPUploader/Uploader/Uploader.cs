@@ -8,7 +8,7 @@ namespace FTPUploader
     {
         public Stream GetUploadStream(string url, string userName, string password)
         {
-            var date = DateTime.Today.ToString("yyyy-mmmm-dd__hh-MM");
+            var date = DateTime.Now.ToString("yyyy-MM-dd__HH-mm");
             var fileName = $@"{date}.zip";
 
             CreateFolder(userName, password, url, fileName);

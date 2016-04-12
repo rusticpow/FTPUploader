@@ -14,7 +14,7 @@ namespace FTPUploader
                 zip.AlternateEncoding = Encoding.UTF8;
                 zip.AlternateEncodingUsage = ZipOption.Always;
                 zip.AddDirectory(path);
-
+                zip.UseZip64WhenSaving = Zip64Option.Always;
                 zip.Save(stream);
             }
         }
