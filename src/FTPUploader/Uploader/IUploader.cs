@@ -4,6 +4,6 @@ namespace FTPUploader
 {
     public interface IUploader
     {
-        Stream GetUploadStream(string url, string userName, string password);
+        Stream GetUploadStream(string uri, string userName, string password);
     }
 }

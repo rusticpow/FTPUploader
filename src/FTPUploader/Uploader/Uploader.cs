@@ -8,17 +8,44 @@ namespace FTPUploader
     {
         public Stream GetUploadStream(string url, string userName, string password)
         {
-            WebClient client = new WebClient();
-            
-            
-                client.Credentials = new NetworkCredential(userName, password);
-                FtpWebRequest reqFTP = (FtpWebRequest)FtpWebRequest.Create(new Uri($"{url}/{userName}"));
-                reqFTP.GetRequestStream();
+            var date = DateTime.Today.ToString("yyyy-mmmm-dd__hh-MM");
+            var fileName = $@"{date}.zip";
 
-                Stream ftpStream = reqFTP.GetRequestStream();
+            CreateFolder(userName, password, url, fileName);
 
-                return ftpStream;
+            FtpWebRequest request;
             
+            request = WebRequest.Create(new Uri($"{url}/{fileName}")) as FtpWebRequest;
+            request.Method = WebRequestMethods.Ftp.UploadFile;
+            request.UseBinary = true;
+            request.UsePassive = true;
+            request.KeepAlive = true;
+            request.Credentials = new NetworkCredential(userName, password);
+            request.ConnectionGroupName = "group";
+
+            var requestStream = request.GetRequestStream();
+
+            return requestStream;
+        }
+
+        private void CreateFolder(string userName, string password, string path, string fileName)
+        {
+
+            try
+            {
+                var request = (FtpWebRequest) WebRequest.Create(new Uri(string.Format(path)));
+                request.Method = WebRequestMethods.Ftp.MakeDirectory;
+                request.UseBinary = true;
+                request.UsePassive = true;
+                request.KeepAlive = true;
+                request.Credentials = new NetworkCredential(userName, password);
+                request.ConnectionGroupName = "group";
+                using (var resp = (FtpWebResponse) request.GetResponse())
+                {
+                    Console.WriteLine(resp.StatusCode);
+                }
+            }
+            catch{}
         }
     }
 }

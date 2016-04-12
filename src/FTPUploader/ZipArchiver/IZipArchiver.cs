@@ -4,6 +4,6 @@ namespace FTPUploader
 {
     public interface IZipArchiver
     {
-        Stream Archivate(string path);
+        void Archivate(string path, Stream stream);
     }
 }
